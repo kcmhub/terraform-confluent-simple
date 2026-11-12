@@ -1,5 +1,8 @@
 # terraform-confluent-simple
 
+[![ci](https://github.com/kcmhub/terraform-confluent-simple/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kcmhub/terraform-confluent-simple/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/kcmhub/terraform-confluent-simple)](LICENSE)
+
 A small, plain HCL example that creates the Kafka resources of one team on an **existing** Confluent Cloud cluster with the official [`confluentinc/confluent`](https://registry.terraform.io/providers/confluentinc/confluent/latest/docs) provider. No modules, no YAML: every resource is written out so you can read it top to bottom and copy what you need.
 
 What it creates for the `orders` team:
