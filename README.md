@@ -6,7 +6,7 @@ What it creates for the `orders` team:
 
 | File | Resources |
 |------|-----------|
-| [`topics.tf`](terraform/topics.tf) | `orders.order.created` (6 partitions, 7 days retention) and `orders.order.status` (compacted), both with `prevent_destroy` |
+| [`topics.tf`](terraform/topics.tf) | `orders.order.created` (6 partitions, 7 days retention) and `orders.order.status` (compacted) |
 | [`service-accounts.tf`](terraform/service-accounts.tf) | a producer and a consumer service account, each with a Kafka API key and a Schema Registry API key |
 | [`rbac.tf`](terraform/rbac.tf) | `DeveloperWrite` for the producer on both topics; `DeveloperRead` for the consumer on `orders.order.created` and on the consumer group prefix `orders.order-consumer*`; `DeveloperRead` for both on the schema subject |
 | [`schemas.tf`](terraform/schemas.tf) | the Avro subject `orders.order.created-value` with `BACKWARD` compatibility |
@@ -55,7 +55,7 @@ terraform output -json client_credentials
 
 Keep the state in a remote backend with encryption and restricted access: it contains the API key secrets. Use one state per environment.
 
-To remove a topic, first delete its `prevent_destroy` line on purpose. To bring an existing topic under Terraform, use an `import` block with the ID `<lkc-id>/<topic name>`; the provider then reads the Kafka credentials from the `IMPORT_KAFKA_API_KEY`, `IMPORT_KAFKA_API_SECRET` and `IMPORT_KAFKA_REST_ENDPOINT` environment variables (see the provider documentation).
+Removing a topic resource deletes the topic and its data, so read the plan before applying; add `lifecycle { prevent_destroy = true }` to a topic if you prefer the plan to fail instead. To bring an existing topic under Terraform, use an `import` block with the ID `<lkc-id>/<topic name>`; the provider then reads the Kafka credentials from the `IMPORT_KAFKA_API_KEY`, `IMPORT_KAFKA_API_SECRET` and `IMPORT_KAFKA_REST_ENDPOINT` environment variables (see the provider documentation).
 
 ## Owner metadata (`owner = true`)
 

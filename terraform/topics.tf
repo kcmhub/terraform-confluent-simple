@@ -1,3 +1,6 @@
+# Removing a topic resource deletes the topic and its data: review the plan
+# before applying.
+
 resource "confluent_kafka_topic" "order_created" {
   kafka_cluster {
     id = data.confluent_kafka_cluster.this.id
@@ -14,11 +17,6 @@ resource "confluent_kafka_topic" "order_created" {
   credentials {
     key    = var.kafka_api_key
     secret = var.kafka_api_secret
-  }
-
-  lifecycle {
-    # Deleting a topic deletes its data: remove this line on purpose first.
-    prevent_destroy = true
   }
 }
 
@@ -37,9 +35,5 @@ resource "confluent_kafka_topic" "order_status" {
   credentials {
     key    = var.kafka_api_key
     secret = var.kafka_api_secret
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
